@@ -1,0 +1,9 @@
+name: bwu_utils
+version: 0.0.1
+description: utils that depend neither on 'dart:io' nor 'dart:html'
+author: Günter Zöchbauer <guenter@gzoechbauer.com>
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+
+dev_dependencies:
+  unittest: any
