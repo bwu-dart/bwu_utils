@@ -2,7 +2,7 @@ library bwu_utils.test_parse_num;
 
 import 'package:unittest/unittest.dart';
 
-import 'package:bwu_utils/parse_num.dart';
+import 'package:bwu_utils/math/parse_num.dart';
 
 void main(args) {
   group('parse int -', () {
