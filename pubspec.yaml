@@ -1,5 +1,5 @@
 name: bwu_utils
-version: 0.0.1
+version: 0.0.2
 description: utils that depend neither on 'dart:io' nor 'dart:html'
 homepage: https://github.com/bwu-dart/bwu_utils
 author: Günter Zöchbauer <guenter@gzoechbauer.com>
