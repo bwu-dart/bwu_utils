@@ -1,14 +1,21 @@
 library bwu_utils.parse_num;
 
-bool isInt(String s, {int radix: 10}) {
+bool isInt(dynamic s, {int radix: 10}) { // TODO test after change to dynamic
   if(s == null) return false;
+  if(s is int) return true;
+  if(s is !String) return false;
   return parseInt(s, onErrorDefault: null) is int;
 }
 
-bool isDouble(String s, {
+bool isDouble(dynamic s, {
   bool acceptInfinity: false,
   bool acceptNegativeInfinity: false}) {
   if(s == null) return false;
+  if(s is num) {
+    return (s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
+                  (s != double.NEGATIVE_INFINITY || s == double.NEGATIVE_INFINITY && acceptNegativeInfinity);
+  }
+  if(s is !String) return false;
   num parsed = parseNum(s,
       onErrorDefault: null,
       acceptInfinity: acceptInfinity,
@@ -20,10 +27,15 @@ bool isDouble(String s, {
       (acceptNegativeInfinity && parsed.toString() == double.NEGATIVE_INFINITY.toString());
 }
 
-bool isNum(String s, {
+bool isNum(dynamic s, {
   bool acceptInfinity: false,
   bool acceptNegativeInfinity: false}) {
   if(s == null) return false;
+  if(s is num) {
+    return (s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
+                  (s != double.NEGATIVE_INFINITY || s == double.NEGATIVE_INFINITY && acceptNegativeInfinity);
+  }
+  if(s is !String) return false;
   return parseNum(s,
        onErrorDefault: null,
        acceptInfinity: acceptInfinity,
@@ -34,15 +46,24 @@ bool isNum(String s, {
 /**
  * parse the provided value and return a default value in case of a FormatException
  */
-int parseInt(String s, {int radix: 10, int onErrorDefault : null}) {
+int parseInt(dynamic s, {int radix: 10, int onErrorDefault : null}) {
   if(s == null) return onErrorDefault;
+  if(s is int) return s;
+  if(s is !String) return onErrorDefault;
   return int.parse(s, radix: radix, onError: (_) => onErrorDefault);
 }
 
-double parseDouble(String s, {double onErrorDefault: null,
+double parseDouble(dynamic s, {double onErrorDefault: null,
     bool acceptInfinity: false,
     bool acceptNegativeInfinity: false}) {
   if(s == null) return onErrorDefault;
+  if(s is num && ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
+                  (s != double.NEGATIVE_INFINITY || s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
+    return s;
+  } else {
+    s = s.toString();
+  }
+  if(s is !String) return onErrorDefault;
 
   if(acceptInfinity && s.toLowerCase() == double.INFINITY.toString().toLowerCase()) {
     return double.INFINITY;
@@ -51,6 +72,13 @@ double parseDouble(String s, {double onErrorDefault: null,
   if(acceptNegativeInfinity && s.toLowerCase() == double.NEGATIVE_INFINITY.toString().toLowerCase()) {
     return double.NEGATIVE_INFINITY;
   }
+  if(s is num && ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
+                  (s != double.NEGATIVE_INFINITY || s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
+    return s;
+  } else {
+    s = s.toString();
+  }
+  if(s is !String) return onErrorDefault;
 
   double result = double.parse(s, (_) => onErrorDefault);
 
@@ -61,11 +89,18 @@ double parseDouble(String s, {double onErrorDefault: null,
   return result;
 }
 
-num parseNum(String s, {num onErrorDefault: null,
+num parseNum(dynamic s, {num onErrorDefault: null,
   bool acceptInfinity: false,
   bool acceptNegativeInfinity: false}) {
 
   if(s == null) return onErrorDefault;
+  if(s is num && ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
+                  (s != double.NEGATIVE_INFINITY || s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
+    return s;
+  } else {
+    s = s.toString();
+  }
+  if(s is !String) return onErrorDefault;
 
   if(acceptInfinity && s.toLowerCase() == double.INFINITY.toString().toLowerCase()) {
     return double.INFINITY;
