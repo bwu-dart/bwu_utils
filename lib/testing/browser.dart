@@ -5,13 +5,17 @@ export 'package:unittest/unittest.dart';
 export 'package:logging/logging.dart'
     show Logger, Level;
 
+import 'dart:async' show Future;
 import 'package:stack_trace/stack_trace.dart' show Chain;
 import 'package:logging/logging.dart'
     show Logger, Level, hierarchicalLoggingEnabled;
 import 'package:quiver_log/log.dart' show BASIC_LOG_FORMATTER, PrintAppender;
-import 'package:bwu_utils/bwu_utils_server.dart' as srv_utils;
-import 'dart:io' as io;
+
+import 'dart:html' as dom;
 import 'package:path/path.dart' as path;
+
+import 'package:bwu_utils/bwu_utils_browser.dart' as html_util;
+export 'package:bwu_utils/bwu_utils_browser.dart';
 
 void initLogging() {
   Logger.root.level = Level.FINEST;
@@ -21,20 +25,10 @@ void initLogging() {
 }
 
 dynamic stackTrace(Logger _log, test()) {
-  return Chain.capture(() => test() , onError: (error, stack) {
-    _log.shout(error);
-    _log.info(stack.terse);
+  return test();
+  return Chain.capture(() => test() /*, onError: (error, stack) {
+//    _log.shout(error);
+//    _log.info(stack.terse);
     throw error;
-  });
-}
-
-String _tmpTestDataDir;
-String get tmpTestDataDir {
-  if (_tmpTestDataDir == null) {
-    _tmpTestDataDir = path.join(srv_utils.packageRoot().absolute.path, 'test/.tmp_data');
-    if (!new io.Directory(_tmpTestDataDir).existsSync()) {
-      throw 'Directory for temporary test data (${_tmpTestDataDir}) doesn\'t exist';
-    }
-  }
-  return _tmpTestDataDir;
+  }*/);
 }

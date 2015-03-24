@@ -1,10 +1,12 @@
 library bwu_utils.test.shared.test_parse_num;
 
-import 'package:unittest/unittest.dart';
-
+import 'package:bwu_utils/testing_server.dart';
 import 'package:bwu_utils/shared/math/parse_num.dart';
 
+final _log = new Logger('bwu_utils.test.shared.test_parse_num');
+
 void main(args) {
+  initLogging();
   group('parse int -', () {
     test('return null', () {
       expect(parseInt(null), isNull);
@@ -102,7 +104,7 @@ void main(args) {
           double.NEGATIVE_INFINITY);
 
       expect(parseDouble('-Infinity', acceptInfinity: true), isNull);
-      logMessage('-infinity'.toLowerCase() +
+      _log.finest('-infinity'.toLowerCase() +
           ' ' +
           double.NEGATIVE_INFINITY.toString().toLowerCase());
 

@@ -15,34 +15,34 @@ dom.HtmlElement getParentElement(dom.Node element) {
 
 int innerWidth(dom.HtmlElement e) {
   var cs = e.getComputedStyle();
-  return parseIntFromStringWithUnit(cs.width) +
-      parseIntFromStringWithUnit(cs.paddingLeft) +
-      parseIntFromStringWithUnit(cs.paddingRight);
+  return parseIntDropUnit(cs.width) +
+      parseIntDropUnit(cs.paddingLeft) +
+      parseIntDropUnit(cs.paddingRight);
 }
 
 int innerHeight(dom.HtmlElement e) {
   var cs = e.getComputedStyle();
-  return parseIntFromStringWithUnit(cs.height) +
-      parseIntFromStringWithUnit(cs.paddingTop) +
-      parseIntFromStringWithUnit(cs.paddingBottom);
+  return parseIntDropUnit(cs.height) +
+      parseIntDropUnit(cs.paddingTop) +
+      parseIntDropUnit(cs.paddingBottom);
 }
 
 int outerWidth(dom.HtmlElement e) {
   var cs = e.getComputedStyle();
-  return parseIntFromStringWithUnit(cs.width) +
-      parseIntFromStringWithUnit(cs.paddingLeft) +
-      parseIntFromStringWithUnit(cs.paddingRight) +
-      parseIntFromStringWithUnit(cs.borderLeftWidth) +
-      parseIntFromStringWithUnit(cs.borderRightWidth);
+  return parseIntDropUnit(cs.width) +
+      parseIntDropUnit(cs.paddingLeft) +
+      parseIntDropUnit(cs.paddingRight) +
+      parseIntDropUnit(cs.borderLeftWidth) +
+      parseIntDropUnit(cs.borderRightWidth);
 }
 
 int outerHeight(dom.HtmlElement e) {
   var cs = e.getComputedStyle();
-  return parseIntFromStringWithUnit(cs.height) +
-      parseIntFromStringWithUnit(cs.paddingTop) +
-      parseIntFromStringWithUnit(cs.paddingBottom) +
-      parseIntFromStringWithUnit(cs.borderTopWidth) +
-      parseIntFromStringWithUnit(cs.borderBottomWidth);
+  return parseIntDropUnit(cs.height) +
+      parseIntDropUnit(cs.paddingTop) +
+      parseIntDropUnit(cs.paddingBottom) +
+      parseIntDropUnit(cs.borderTopWidth) +
+      parseIntDropUnit(cs.borderBottomWidth);
 }
 
 dom.HtmlElement closest(dom.HtmlElement e, String selector,
@@ -89,7 +89,7 @@ dom.HtmlElement closest(dom.HtmlElement e, String selector,
   return found;
 }
 
-int parseIntFromStringWithUnit(String s) {
+int parseIntDropUnit(String s) {
   if (s == null || s.trim() == '') {
     return 0;
   }

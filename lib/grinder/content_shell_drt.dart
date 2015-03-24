@@ -1,4 +1,4 @@
-library bwu_utils.grinder.grinder_content_shell_drt;
+library bwu_utils.grinder.content_shell_drt;
 
 import 'dart:io' as io;
 import 'dart:async' show Future, Stream;
