@@ -7,7 +7,7 @@ import 'package:dart_style/src/formatter_options.dart';
 
 /// Check whether all *.dart files in the given directories and their sub-
 /// directories are properly formatted.
-void checkFormatTask(GrinderContext context, List<String> directories) {
+void checkFormatTask(List<String> directories) {
   final reporter = OutputReporter.dryRun;
   // TODO(zoechi) currently there is no way to get notified about violations
   if (!formatAll(reporter, directories)) {
@@ -16,7 +16,7 @@ void checkFormatTask(GrinderContext context, List<String> directories) {
 }
 
 ///
-void formatAllTask(GrinderContext context, List<String> directories) {
+void formatAllTask(List<String> directories) {
   final reporter = OutputReporter.overwrite;
   if (!formatAll(reporter, directories)) {
     context.fail('Formatting failed!');

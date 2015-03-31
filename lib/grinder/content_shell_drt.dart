@@ -13,8 +13,7 @@ class ContentShellDrt extends ContentShell {
     _tempDir = io.Directory.systemTemp.createTempSync('userDataDir-');
   }
 
-  void launchFile(GrinderContext context, String filePath,
-      {bool verbose: false, Map envVars}) {
+  void launchFile(String filePath, {bool verbose: false, Map envVars}) {
     String url;
 
     if (new io.File(filePath).existsSync()) {
@@ -38,17 +37,17 @@ class ContentShellDrt extends ContentShell {
 
     // TODO: This process often won't terminate, so that's a problem.
     context.log("starting chrome...");
-    runProcess(context, browserPath, arguments: args, environment: envVars);
+    runProcess(browserPath, arguments: args, environment: envVars);
   }
 
-  Future<BrowserInstance> launchUrl(GrinderContext context, String url,
+  Future<BrowserInstance> launchUrl(String url,
       {List<String> args, bool verbose: false, Map envVars}) {
     final _args = ['--dump-render-tree'];
     if (args != null) {
       _args.addAll(args);
     }
 
-    return super.launchUrl(context, url,
+    return super.launchUrl(url,
         args: _args, verbose: verbose, envVars: envVars);
   }
 }

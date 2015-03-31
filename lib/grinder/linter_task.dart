@@ -1,6 +1,5 @@
 library bwu_utils.grinder.linter_task;
 
-import 'dart:async' show Future, Stream;
 import 'dart:io' as io;
 import 'package:linter/src/linter.dart';
 import 'package:linter/src/formatter.dart';
@@ -12,7 +11,7 @@ import 'package:linter/src/config.dart';
 /// Run linter using on the package.
 /// Use the configuration file referenced by [configFilePath]
 ///   for example 'tool/lintcfg.yaml'.
-void linterTask(GrinderContext context, String configFilePath) {
+void linterTask(String configFilePath) {
   final config =
   new LintConfig.parse(new io.File('tool/lintcfg.yaml').readAsStringSync());
   final lintOptions = new LinterOptions()..configure(config);

@@ -27,21 +27,21 @@ void clean(GrinderContext context) => defaultClean(context);
 @Task()
 @Depends(init)
 void analyze(GrinderContext context) {
-  analyzerTask(context, files: [], directories: ['lib', 'tool', 'test']);
+  analyzerTask(files: [], directories: ['lib', 'tool', 'test']);
 }
 
 /// tests - Run all tests
 @Task()
 @Depends(init)
 void test(GrinderContext context) {
-  Tests.runCliTests(context);
+  Tests.runCliTests();
 }
 
 @Task()
 @Depends(init)
 void testWeb(GrinderContext context) {
   var browser = new ContentShellDrt();
-  Tests.runWebTests(context,
+  Tests.runWebTests(
       directory: 'test/browser',
       htmlFile: 'parse_int_test.html',
       browser: browser);
@@ -50,26 +50,25 @@ void testWeb(GrinderContext context) {
 /// check - thorough pre-publish check
 @Task()
 @Depends(init, checkFormat, lint, test)
-void check(GrinderContext context) {
-}
+void check(GrinderContext context) {}
 
 /// check-format - check all for formatting issues
 @Task()
 @Depends(init)
 void checkFormat(GrinderContext context) {
-  checkFormatTask(context, ['.']);
+  checkFormatTask(['.']);
 }
 
 /// format-all - fix all formatting issues
 @Task()
 @Depends(init)
 void formatAll(GrinderContext context) {
-  checkFormatTask(context, ['.']);
+  checkFormatTask(['.']);
 }
 
 /// lint - run linter on all files
 @Task()
 @Depends(init)
 void lint(GrinderContext context) {
-  linterTask(context, 'tool/lintcfg.yaml');
+  linterTask('tool/lintcfg.yaml');
 }
