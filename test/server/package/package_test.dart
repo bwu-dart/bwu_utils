@@ -1,3 +1,4 @@
+@TestOn('vm')
 library bwu_utils.test.server.package;
 
 import 'package:bwu_utils/testing_server.dart';

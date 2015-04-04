@@ -1,3 +1,4 @@
+@TestOn('vm')
 library bwu_utils.test.shared.test_parse_num;
 
 import 'package:bwu_utils/testing_server.dart';

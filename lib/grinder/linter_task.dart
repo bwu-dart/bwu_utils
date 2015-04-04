@@ -4,9 +4,9 @@ import 'dart:io' as io;
 import 'package:linter/src/linter.dart';
 import 'package:linter/src/formatter.dart';
 import 'package:linter/src/io.dart';
+import 'package:linter/src/config.dart';
 import 'package:analyzer/src/generated/engine.dart';
 import 'package:grinder/grinder.dart';
-import 'package:linter/src/config.dart';
 
 /// Run linter using on the package.
 /// Use the configuration file referenced by [configFilePath]

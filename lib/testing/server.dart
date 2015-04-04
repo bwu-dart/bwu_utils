@@ -1,7 +1,7 @@
 library bwu_utils.testing.server;
 
 export 'dart:async' show Future, Stream, Completer;
-export 'package:unittest/unittest.dart';
+export 'package:test/test.dart';
 export 'package:logging/logging.dart'
     show Logger, Level;
 

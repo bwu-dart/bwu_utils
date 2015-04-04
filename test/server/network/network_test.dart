@@ -1,3 +1,4 @@
+@TestOn('vm')
 library bwu_utils.test.server.network;
 
 import 'dart:io' as io;

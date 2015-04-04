@@ -17,29 +17,21 @@ void main(List<String> args) {
 
 _main(List<String> args) => grind(args);
 
-@Task()
-void init(GrinderContext context) => defaultInit(context);
+//@Task('Delete build directory')
+//void clean() => defaultClean(context);
 
-@Task()
-void clean(GrinderContext context) => defaultClean(context);
-
-/// analyze - Analyzer check excluding tests
-@Task()
-@Depends(init)
-void analyze(GrinderContext context) {
+@Task('Run analyzer')
+void analyze() {
   analyzerTask(files: [], directories: ['lib', 'tool', 'test']);
+//  PubApplication tuneup = new PubApplication('tuneup');
+//  tuneup.run(['check']);
 }
 
-/// tests - Run all tests
-@Task()
-@Depends(init)
-void test(GrinderContext context) {
-  Tests.runCliTests();
-}
+@Task('Runn all command line tests')
+void test() => Tests.runCliTests();
 
-@Task()
-@Depends(init)
-void testWeb(GrinderContext context) {
+@Task('Run all browser tests')
+void testWeb() {
   var browser = new ContentShellDrt();
   Tests.runWebTests(
       directory: 'test/browser',
@@ -47,28 +39,16 @@ void testWeb(GrinderContext context) {
       browser: browser);
 }
 
-/// check - thorough pre-publish check
-@Task()
-@Depends(init, checkFormat, lint, test)
-void check(GrinderContext context) {}
+@Task('Run all checks (analyze, check-format, lint, test, test-web)')
+@Depends(analyze, checkFormat, lint, test)
+void check() {}
 
-/// check-format - check all for formatting issues
-@Task()
-@Depends(init)
-void checkFormat(GrinderContext context) {
-  checkFormatTask(['.']);
-}
+@Task('Check source code format')
+void checkFormat() => checkFormatTask(['.']);
 
 /// format-all - fix all formatting issues
-@Task()
-@Depends(init)
-void formatAll(GrinderContext context) {
-  checkFormatTask(['.']);
-}
+@Task('Fix all source format issues')
+void formatAll() =>  checkFormatTask(['.']);
 
-/// lint - run linter on all files
-@Task()
-@Depends(init)
-void lint(GrinderContext context) {
-  linterTask('tool/lintcfg.yaml');
-}
+@Task('Run lint checks')
+void lint() => linterTask('tool/lintcfg.yaml');

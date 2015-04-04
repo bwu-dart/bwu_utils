@@ -1,3 +1,4 @@
+@TestOn('browser')
 library bwu_utils.test.browser.parse_int;
 
 //import 'package:unittest/unittest.dart';
