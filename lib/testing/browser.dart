@@ -26,3 +26,6 @@ dynamic stackTrace(Logger _log, test()) {
     throw error;
   });
 }
+
+void xtest(_, __) {}
+void xgroup(_, __) {}
