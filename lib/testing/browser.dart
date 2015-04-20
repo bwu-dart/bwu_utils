@@ -1,9 +1,8 @@
-library bwu_utils.testing.server;
+library bwu_utils.testing.browser;
 
 export 'dart:async' show Future, Stream, Completer;
 export 'package:test/test.dart';
-export 'package:logging/logging.dart'
-    show Logger, Level;
+export 'package:logging/logging.dart' show Logger, Level;
 
 import 'package:stack_trace/stack_trace.dart' show Chain;
 import 'package:logging/logging.dart'
@@ -26,6 +25,3 @@ dynamic stackTrace(Logger _log, test()) {
     throw error;
   });
 }
-
-void xtest(_, __) {}
-void xgroup(_, __) {}

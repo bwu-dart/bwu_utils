@@ -1,14 +1,14 @@
 @TestOn('vm')
-library bwu_utils.test.shared.test_parse_num;
+library bwu_utils.test.shared.parse_num;
 
 import 'package:bwu_utils/testing_server.dart';
 import 'package:bwu_utils/shared/math/parse_num.dart';
 
 final _log = new Logger('bwu_utils.test.shared.test_parse_num');
 
-void main(args) {
-  initLogging();
-  group('parse int -', () {
+void main([List<String> args]) {
+  initLogging(args);
+  group('parse int', () {
     test('return null', () {
       expect(parseInt(null), isNull);
       expect(parseInt('null'), isNull);
@@ -376,6 +376,24 @@ void main(args) {
 
       expect(
           parseNumWithUnit('.0px '), equals(new ParseResult<num>(0.0, 'px')));
+    });
+  });
+
+  group('parseIntDropDouble', () {
+    test('simple int', () {
+      expect(parseIntDropUnit('0'), equals(0));
+      expect(parseIntDropUnit('1'), equals(1));
+      expect(parseIntDropUnit(' 1'), equals(1));
+      expect(parseIntDropUnit('184'), equals(184));
+    });
+
+    test('with dimensions', () {
+      expect(parseIntDropUnit('10px'), equals(10));
+      expect(parseIntDropUnit('10%'), equals(10));
+    });
+
+    test('with double value', () {
+      expect(parseIntDropUnit('184.984375'), equals(185));
     });
   });
 }

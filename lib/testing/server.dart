@@ -71,6 +71,3 @@ String get tmpTestDataDir {
   }
   return _tmpTestDataDir;
 }
-
-void xtest(_, __) {}
-void xgroup(_, __) {}

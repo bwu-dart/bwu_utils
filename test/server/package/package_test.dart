@@ -5,8 +5,8 @@ import 'package:bwu_utils/testing_server.dart';
 
 import 'package:path/path.dart' as path;
 
-void main() {
-  initLogging();
+void main([List<String> args]) {
+  initLogging(args);
   group('package_test', () {
     test('package', () {
       // set up

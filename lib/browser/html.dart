@@ -1,6 +1,7 @@
 library bwu_utils.browser.html;
 
 import 'dart:html' as dom;
+import '../shared/math/parse_num.dart';
 
 dom.HtmlElement getParentElement(dom.Node element) {
   if (element.parentNode == null) {
@@ -87,21 +88,4 @@ dom.HtmlElement closest(dom.HtmlElement e, String selector,
   }
 
   return found;
-}
-
-int parseIntDropUnit(String s) {
-  if (s == null || s.trim() == '') {
-    return 0;
-  }
-  if (s.endsWith('%')) {
-    s = s.substring(0, s.length - 1);
-  } else if (s.endsWith('px')) {
-    s = s.substring(0, s.length - 2);
-  }
-  try {
-    return num.parse(s).round();
-  } on FormatException catch (e) {
-    print('message: ${e.message}; value: "${s}"');
-    rethrow;
-  }
 }

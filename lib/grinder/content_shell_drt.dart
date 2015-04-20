@@ -6,6 +6,7 @@ import 'package:grinder/grinder.dart';
 
 /// A browser implementation which runs ContentShell with --dump-render-tree
 /// for headless web test runs.
+@Deprecated('use "pub run test -pcontent-shell" instead')
 class ContentShellDrt extends ContentShell {
   io.Directory _tempDir;
 

@@ -11,9 +11,11 @@ import 'package:grinder/grinder.dart';
 /// Run linter using on the package.
 /// Use the configuration file referenced by [configFilePath]
 ///   for example 'tool/lintcfg.yaml'.
+@Deprecated(
+    'use "new PubApp.global(\'linter\').run([\'--stats\', \'-ctool/lintcfg.yaml\', \'.\']);" instead')
 void linterTask(String configFilePath) {
   final config =
-  new LintConfig.parse(new io.File('tool/lintcfg.yaml').readAsStringSync());
+      new LintConfig.parse(new io.File('tool/lintcfg.yaml').readAsStringSync());
   final lintOptions = new LinterOptions()..configure(config);
   final linter = new DartLinter(lintOptions);
   List<io.File> filesToLint = [];

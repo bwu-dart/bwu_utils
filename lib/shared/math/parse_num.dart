@@ -44,7 +44,7 @@ bool isNum(dynamic s,
       acceptNegativeInfinity: acceptNegativeInfinity) is num;
 }
 
- /// parse the provided value and return a default value in case of a FormatException
+/// parse the provided value and return a default value in case of a FormatException
 int parseInt(dynamic s, {int radix: 10, int onErrorDefault: null}) {
   if (s == null) return onErrorDefault;
   if (s is int) return s;
@@ -202,4 +202,21 @@ ParseResult<num> parseNumWithUnit(String s) {
     return new ParseResult<num>(null, s, isError: true);
   }
   return new ParseResult<num>(numValue, m.group(2).trim());
+}
+
+int parseIntDropUnit(String s) {
+  if (s == null || s.trim() == '') {
+    return 0;
+  }
+  if (s.endsWith('%')) {
+    s = s.substring(0, s.length - 1);
+  } else if (s.endsWith('px')) {
+    s = s.substring(0, s.length - 2);
+  }
+  try {
+    return num.parse(s).round();
+  } on FormatException catch (e) {
+    print('message: ${e.message}; value: "${s}"');
+    rethrow;
+  }
 }

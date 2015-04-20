@@ -32,9 +32,8 @@ Future<int> getNextFreeIpPort([host]) async {
   if (host == null) {
     host = io.InternetAddress.LOOPBACK_IP_V4;
   }
-  return io.ServerSocket.bind(host, 0).then((socket) {
-    final port = socket.port;
-    socket.close();
-    return port;
-  });
+  final socket = await io.ServerSocket.bind(host, 0);
+  final port = socket.port;
+  await socket.close();
+  return port;
 }
