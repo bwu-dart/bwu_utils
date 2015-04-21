@@ -1,0 +1,24 @@
+<!doctype html>
+<!-- custom_html_test.html -->
+<html>
+  <head>
+    <title>browser/webdriver test</title>
+    <link rel="import" href="app_element.html">
+    <link rel="import" href="child_element.html">
+  </head>
+  <body>
+    <div id="granny">
+      <div>
+        <div id="parent">
+          <div>
+            <div id="child"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-element id="polymer-parent" unresolved>
+      <child-element id="polymer-child"></child-element>
+    </app-element>
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+  </body>
+</html>

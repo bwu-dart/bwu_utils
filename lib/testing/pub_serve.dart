@@ -6,6 +6,9 @@ import 'dart:convert' show Utf8Decoder, UTF8, Utf8Codec, LineSplitter;
 import 'dart:collection' show UnmodifiableMapView;
 import 'package:bwu_utils/server/network/network.dart' show getNextFreeIpPort;
 import 'package:bwu_utils/server/package/package.dart' as pkg;
+import 'package:logging/logging.dart' show Logger;
+
+final _log = new Logger('bwu_utils.testing.server.pub_serve');
 
 class PubServe {
   io.Process _process;
@@ -40,12 +43,12 @@ class PubServe {
       _process = null;
       _port = null;
     });
-    print('pub serve is serving on port "${_port}".');
+    _log.fine('pub serve is serving on port "${_port}".');
     process.stdout
         .transform(UTF8.decoder)
         .transform(new LineSplitter())
         .listen((s) {
-      print(s);
+      _log.fine(s);
       final match = _servingMessageRegex.firstMatch(s);
       if (match != null) {
         _directoryPorts[match.group(1)] = int.parse(match.group(2));

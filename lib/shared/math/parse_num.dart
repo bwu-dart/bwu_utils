@@ -1,4 +1,7 @@
 library bwu_utils.shared.math.parse_num;
+import 'package:logging/logging.dart' show Logger;
+
+final _log = new Logger('bwu_utils.shared.math.parse_num');
 
 bool isInt(dynamic s, {int radix: 10}) {
   // TODO test after change to dynamic
@@ -216,7 +219,7 @@ int parseIntDropUnit(String s) {
   try {
     return num.parse(s).round();
   } on FormatException catch (e) {
-    print('message: ${e.message}; value: "${s}"');
+    _log.severe('message: ${e.message}; value: "${s}"');
     rethrow;
   }
 }

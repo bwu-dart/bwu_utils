@@ -25,15 +25,16 @@ analyze() => new PubApp.global('tuneup').run(['check']);
 //  analyzerTask(files: [], directories: ['lib', 'tool', 'test']);
 
 @Task('Runn all tests')
-test() => new PubApp.local('test').run(['-pvm', '-pcontent-shell', '-pchrome', '-pphantomjs', '-pfirefox']);
+test() => new PubApp.local('test').run(['--no-color', '-pvm', '-pcontent-shell' /*, '-pchrome', '-pphantomjs', '-pfirefox'*/]);
+// TODO(zoechi) enable Polymer tests in JavaScript-only browsers when they are supported.
 
-@Task('Run all browser tests')
-testIo() => new PubApp.local('test').run(['-vm']);
+@Task('Run all VM tests')
+testIo() => new PubApp.local('test').run(['--no-color', '-pvm']);
 
 @Task('Run all browser tests')
 testHtml() => new PubApp.local('test').run(['-pcontent-shell']);
 
-@Task('Run all checks (analyze, check-format, lint, test, test-web)')
+@Task('Check everything')
 @Depends(analyze, checkFormat, lint, test)
 check() {}
 

@@ -13,6 +13,8 @@ import 'package:bwu_utils/bwu_utils_server.dart' as srv_utils;
 import 'dart:io' as io;
 import 'package:path/path.dart' as path;
 
+final _log = new Logger(' bwu_utils.testing.server');
+
 void initLogging([List<String> args]) {
   final levels = Level.LEVELS.map((l) => l.toString().toLowerCase()).toList();
   final _parser = new ArgParser()
@@ -29,13 +31,13 @@ void initLogging([List<String> args]) {
   try {
     options = _parser.parse(args != null ? args : []);
   } on FormatException catch (error) {
-    print('Invalid arguments (${error.message}');
-    print(_parser.usage);
+    _log.severe('Invalid arguments (${error.message}');
+    _log.info(_parser.usage);
     return;
   }
 
   if (options["help"]) {
-    print(_parser.usage);
+    _log.info(_parser.usage);
     return;
   }
 

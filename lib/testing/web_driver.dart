@@ -2,20 +2,24 @@ library bwu_utils.testing.server.web_driver;
 
 import 'dart:io' as io;
 import 'dart:async' show Completer, Future, Stream;
-import 'package:webdriver/webdriver.dart';
-export 'package:webdriver/webdriver.dart';
+import 'package:webdriver/io.dart';
+export 'package:webdriver/io.dart';
+export 'package:webdriver/async_helpers.dart';
 import 'package:which/which.dart';
+import 'package:bwu_utils/testing_server.dart';
 
-DriverFactory createDriverFactory() {
-  List<DriverFactory> factories = [
-    new SauceLabsDriverFactory(),
+final _log = new Logger('bwu_utils.testing.server.web_driver');
+
+WebDriverFactory createDriverFactory() {
+  List<WebDriverFactory> factories = [
+    //new SauceLabsDriverFactory(),
     new ChromeDriverFactory(),
-    new PhantomJSDriverFactory(),
+//    new PhantomJSDriverFactory(),
   ];
 
-  DriverFactory factory;
+  WebDriverFactory factory;
 
-  for (DriverFactory f in factories) {
+  for (WebDriverFactory f in factories) {
     if (f.isAvailable) {
       factory = f;
       break;
@@ -23,41 +27,43 @@ DriverFactory createDriverFactory() {
   }
 
   if (factory == null) {
-    print('No webdriver candidates found.');
-    print('Either set up the env. variables for using saucelabs, or install '
+    _log.severe('No webdriver candidates found.');
+    _log.severe('Either set up the env. variables for using saucelabs, or install '
         'chromedriver or phantomjs.');
     io.exit(1);
   }
   return factory;
 }
 
-abstract class DriverFactory {
+abstract class WebDriverFactory {
   final String name;
 
-  DriverFactory(this.name);
+  WebDriverFactory(this.name);
 
   bool get isAvailable;
 
   Future startFactory();
   Future stopFactory();
 
-  Future<WebDriver> createDriver();
+  Future<WebDriver> createWebDriver();
 
   String toString() => name;
 }
 
-class SauceLabsDriverFactory extends DriverFactory {
+class SauceLabsDriverFactory extends WebDriverFactory {
   SauceLabsDriverFactory() : super('saucelabs');
 
-  bool get isAvailable => false;
+  Map get _env => io.Platform.environment;
+
+  bool get isAvailable => _env.containsKey('SAUCE_USERNAME') && _env.containsKey('SAUCE_ACCESS_KEY');
 
   Future startFactory() => new Future.value();
   Future stopFactory() => new Future.value();
 
-  Future<WebDriver> createDriver() => new Future.error('not implemented');
+  Future<WebDriver> createWebDriver() => new Future.error('not implemented');
 }
 
-class PhantomJSDriverFactory extends DriverFactory {
+class PhantomJSDriverFactory extends WebDriverFactory {
   io.Process _process;
 
   PhantomJSDriverFactory() : super('phantomjs');
@@ -78,22 +84,24 @@ class PhantomJSDriverFactory extends DriverFactory {
     return f;
   }
 
-  Future<WebDriver> createDriver() {
-    return WebDriver.createDriver(
+  Future<WebDriver> createWebDriver() {
+    return createDriver(
         uri: Uri.parse('http://127.0.0.1:9515/wd'),
-        desiredCapabilities: Capabilities.chrome);
+        desired: Capabilities.chrome);
   }
 }
 
-class ChromeDriverFactory extends DriverFactory {
+class ChromeDriverFactory extends WebDriverFactory {
   io.Process _process;
 
   ChromeDriverFactory() : super('chromedriver');
 
+  Map get _env => io.Platform.environment;
+
   bool get isAvailable => whichSync('chromedriver', orElse: () => null) != null;
 
   Future startFactory() {
-    print('starting chromedriver');
+    _log.fine('starting chromedriver');
 
     return io.Process.start('chromedriver', []).then((p) {
       _process = p;
@@ -102,7 +110,7 @@ class ChromeDriverFactory extends DriverFactory {
   }
 
   Future stopFactory() {
-    print('stopping chromedriver');
+    _log.finest('stopping chromedriver');
 
     _process.kill();
     Future f = _process.exitCode;
@@ -110,23 +118,24 @@ class ChromeDriverFactory extends DriverFactory {
     return f;
   }
 
-  Future<WebDriver> createDriver() {
+  Future<WebDriver> createWebDriver() {
     Map capabilities = Capabilities.chrome;
     Map env = io.Platform.environment;
     Map chromeOptions = {};
 
-    if (env['CHROMEDRIVER_BINARY'] != null) {
-      chromeOptions['binary'] = env['CHROMEDRIVER_BINARY'];
-    }
-    if (env['CHROMEDRIVER_ARGS'] != null) {
-      chromeOptions['args'] = env['CHROMEDRIVER_ARGS'].split(' ');
-    }
+//    if (env['CHROMEDRIVER_BINARY'] != null) {
+//      chromeOptions['binary'] = env['CHROMEDRIVER_BINARY'];
+//    }
+//    if (env['CHROMEDRIVER_ARGS'] != null) {
+//      chromeOptions['args'] = env['CHROMEDRIVER_ARGS'].split(' ');
+//    }
     if (chromeOptions.isNotEmpty) {
       capabilities['chromeOptions'] = chromeOptions;
     }
 
-    return WebDriver.createDriver(
+    return createDriver(
         uri: Uri.parse('http://127.0.0.1:9515/wd'),
-        desiredCapabilities: capabilities);
+        //uri: Uri.parse('http://127.0.0.1:4444/wd/hub/'),
+        desired: capabilities);
   }
 }

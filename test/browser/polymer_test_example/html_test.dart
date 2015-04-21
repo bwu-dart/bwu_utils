@@ -33,7 +33,7 @@ main() {
       expect(parent, equals(dom.document.querySelector('#parent')));
 
       // tear down
-    }, skip: 'enable!!!');
+    });
 
     test('Polymer elements', () {
       // set up
@@ -48,7 +48,7 @@ main() {
       expect(parent, equals(expectedParent));
 
       // tear down
-    }, skip: 'enable!!!');
+    });
 
     test('Polymer shadow DOM elements', () {
       // set up
@@ -63,6 +63,6 @@ main() {
       expect(parent, equals(expectedParent));
 
       // tear down
-    }, timeout: const Timeout(const Duration(minutes: 3)));
+    }/*, timeout: const Timeout(const Duration(minutes: 3))*/);
   });
 }
