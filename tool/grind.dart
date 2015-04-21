@@ -25,7 +25,7 @@ analyze() => new PubApp.global('tuneup').run(['check']);
 //  analyzerTask(files: [], directories: ['lib', 'tool', 'test']);
 
 @Task('Runn all tests')
-test() => new PubApp.local('test').run(['-pvm', '-pcontent-shell', '-pphantomjs']);
+test() => new PubApp.local('test').run(['-pvm', '-pcontent-shell', '-pchrome', '-pphantomjs', '-pfirefox']);
 
 @Task('Run all browser tests')
 testIo() => new PubApp.local('test').run(['-vm']);

@@ -1,3 +1,4 @@
+//@Timeout(const Duration(minutes: 10))
 @TestOn('browser')
 library bwu_utils.test.shared.parse_num;
 
@@ -13,13 +14,12 @@ main() {
   initLogging();
   Completer polymerInitCompleter = new Completer();
   initPolymer().then((zone) => zone.run(() {
-    // code here works most of the time
     Polymer.onReady.then((_) => polymerInitCompleter.complete());
   }));
 
   group('getParentElement', () {
     setUp(() {
-      return polymerInitCompleter;
+      return polymerInitCompleter.future;
     });
 
     test('simple DOM elements', () {
@@ -63,7 +63,6 @@ main() {
       expect(parent, equals(expectedParent));
 
       // tear down
-    });
-
+    }, timeout: const Timeout(const Duration(minutes: 3)));
   });
 }
