@@ -16,16 +16,16 @@ void main([List<String> args]) {
 
       // exercise
       var port =
-          await getNextFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
+          await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
       isValidPortNumber(port);
-      port = await getNextFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
+      port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
       isValidPortNumber(port);
-      port = await getNextFreeIpPort(io.InternetAddress.ANY_IP_V4.address);
+      port = await getFreeIpPort(io.InternetAddress.ANY_IP_V4.address);
       isValidPortNumber(port);
-      port = await getNextFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
+      port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
       isValidPortNumber(port);
       final someIp = new io.InternetAddress('195.96.0.1');
-      expect(getNextFreeIpPort(someIp),
+      expect(getFreeIpPort(someIp),
           throwsA(new isInstanceOf<io.SocketException>()));
 
       // verification

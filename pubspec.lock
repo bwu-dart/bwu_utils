@@ -170,7 +170,7 @@ packages:
   test:
     description:
       ref: null
-      resolved-ref: "5e073b814106125ee3f4b4859717174f6d2f0a43"
+      resolved-ref: d2650ca9289412a4ecb6b18a8560d3070de6da65
       url: "git@github.com:dart-lang/test.git"
     source: git
     version: "0.12.0-dev"
@@ -189,7 +189,7 @@ packages:
   webdriver:
     description: webdriver
     source: hosted
-    version: "0.10.0-pre.2"
+    version: "0.10.0-pre.3"
   when:
     description: when
     source: hosted

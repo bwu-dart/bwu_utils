@@ -1,4 +1,4 @@
-//@Timeout(const Duration(minutes: 10))
+@Timeout(const Duration(minutes: 10))
 @TestOn('browser')
 library bwu_utils.test.shared.parse_num;
 
