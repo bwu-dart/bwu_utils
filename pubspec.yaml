@@ -37,6 +37,6 @@ transformers:
 
 - polymer:
     entry_points:
-    - test/browser/html_test.html
+    - test/browser/polymer_test_example/html_test.html
     - test/testing/webdriver/polymer/index.html
 
