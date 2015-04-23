@@ -16,13 +16,13 @@ main([List<String> args]) {
 //    int finishedTests;
 
     setUp(() async {
-      if (pubServe == null) {
+//      if (pubServe == null) {
         await wdFactory.startFactory();
         pubServe = new PubServe();
         await pubServe.start(directories: const ['test']);
-        driver = await wdFactory.createWebDriver();
-        print('driver = $driver, ${driver.capabilities}, ${driver.id}');
-      }
+  //    }
+      driver = await wdFactory.createWebDriver();
+      print('driver = $driver, ${driver.capabilities}, ${driver.id}');
     });
 
     tearDown(() async {
@@ -46,7 +46,7 @@ main([List<String> args]) {
       print(url);
       // exercise
       _log.finest('get: ${url}');
-      await driver.navigate.to(url);
+      await driver.get(url);
 //      await driver.get(url);
       driver.timeouts.setImplicitTimeout(const Duration(seconds: 50));
       final title = await driver.title;
@@ -56,10 +56,11 @@ main([List<String> args]) {
 //          matcher: isNot(throws),
 //          timeout: const Duration(seconds: 40),
 //          interval: const Duration(seconds: 5));
-      final WebElement someDiv =
-          await driver.findElement(const By.cssSelector('* /deep/ #some-div'));
+      await new Future.delayed(const Duration(milliseconds: 500), (){});
 //      final someDiv =
 //          await driver.findElement(const By.cssSelector('#granny'));
+      final WebElement someDiv =
+          await driver.findElement(const By.cssSelector('* #some-div'));
 
       //driver.timeouts.setImplicitTimeout(const Duration(seconds: 1));
       // verification

@@ -60,6 +60,28 @@ Future _test(List<String> platforms, {bool runPubServe: true}) async {
   }
 }
 
+@Task('Selenium-tests')
+testSelenium() async {
+  final seleniumJar = '/usr/local/apps/webdriver/selenium-server-standalone-2.45.0.jar';
+//  final chromeBin = '-Dwebdriver.chrome.bin=/usr/bin/google-chrome';
+//  final chromeDriverBin = '-Dwebdriver.chrome.driver=/usr/local/apps/webdriver/chromedriver/2.15/chromedriver_linux64/chromedriver';
+  final platforms = ['vm'];
+  final tests = ['test/testing/webdriver'];
+  final selenium = new SeleniumStandaloneServer();
+  try {
+    await selenium.start(seleniumJar, args: []);
+    new PubApp.local('test')..run([/*'--pub-serve=${pubServe.directoryPorts['test']}'*/]
+      ..addAll(platforms.map((p) => '-p${p}'))..addAll(tests));
+  } catch(e) {
+    selenium.stop();
+    final exitCode = await selenium.exitCode;
+    if (exitCode != null && exitCode != 0) {
+      //context.fail('Pub serve failed with exit code ${exitCode}.');
+    }
+    rethrow;
+  }
+}
+
 @Task('Check everything')
 @Depends(analyze, checkFormat, lint, test)
 check() {}

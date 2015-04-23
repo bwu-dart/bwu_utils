@@ -10,16 +10,7 @@ import 'package:logging/logging.dart' show Logger;
 
 final _log = new Logger('bwu_utils.testing.server.pub_serve');
 
-class PubServe {
-  io.Process _process;
-  io.Process get process => _process;
-
-  Stream<List<int>>_stdoutStream;
-  Stream<List<int>> get stdout => _stdoutStream;
-
-  Stream<List<int>> _stderrStream;
-  Stream<List<int>> get stderr => _stderrStream;
-
+class PubServe extends RunProcess {
   int _port;
   final _directoryPorts = <String, int>{};
   Map<String, int> get directoryPorts =>
@@ -27,14 +18,8 @@ class PubServe {
   final _servingMessageRegex = new RegExp(
       r'^Serving [0-9a-zA-Z_]+ ([0-9a-zA-Z_]+) +on https?://.*:(\d{4,5})$');
 
-  Future<int> _exitCode;
-  Future<int> get exitCode => _exitCode;
-
-  Future<io.Process> start({int port, directories: const ['test']}) async {
+  Future start({int port, directories: const ['test']}) async {
     final readyCompleter = new Completer<io.Process>();
-    if (process != null) {
-      return process;
-    }
     if (port != null && port > 0) {
       _port = port;
     } else {
@@ -45,17 +30,12 @@ class PubServe {
     }
     directories.forEach((d) => _directoryPorts[d] = null);
     String packageRoot = pkg.packageRoot().path;
-    _process = await io.Process.start(
-        'pub', ['serve', '--port=${_port}']..addAll(directories),
+    //_process = await io.Process.start(
+    await super._run('pub', ['serve', '--port=${_port}']..addAll(directories),
         workingDirectory: packageRoot);
-    _exitCode = process.exitCode;
-    process.exitCode.then((exitCode) {
-      _process = null;
+    exitCode.then((exitCode) {
       _port = null;
     });
-    _log.fine('pub serve is serving on port "${_port}".');
-    _stdoutStream = process.stdout.asBroadcastStream();
-    _stderrStream  =process.stderr.asBroadcastStream();
     stdout
         .transform(UTF8.decoder)
         .transform(new LineSplitter())
@@ -73,6 +53,42 @@ class PubServe {
     });
     stderr.transform(UTF8.decoder).listen(print);
     return readyCompleter.future;
+  }
+}
+
+class SeleniumStandaloneServer extends RunProcess {
+  Future start(String serverJarPath, {List<String> args, String workingDirectory}) async {
+    //String jar = '/usr/local/apps/webdriver/selenium-server-standalone-2.45.0.jar';
+    // -Dwebdriver.chrome.bin=/usr/bin/google-chrome -Dwebdriver.chrome.driver=/usr/local/apps/webdriver/chromedriver/2.15/chromedriver_linux64/chromedriver
+    await super._run('java', ['-jar', serverJarPath]..addAll(args), workingDirectory: workingDirectory);
+  }
+}
+
+class RunProcess {
+  io.Process _process;
+  io.Process get process => _process;
+
+  Stream<List<int>>_stdoutStream;
+  Stream<List<int>> get stdout => _stdoutStream;
+
+  Stream<List<int>> _stderrStream;
+  Stream<List<int>> get stderr => _stderrStream;
+
+  Future<int> _exitCode;
+  Future<int> get exitCode => _exitCode;
+
+  Future _run(String executable, List<String> args, {String workingDirectory}) async {
+    if (process != null) {
+      return process;
+    }
+    _process = await io.Process.start(executable, args, workingDirectory: workingDirectory);
+    _exitCode = process.exitCode;
+    process.exitCode.then((exitCode) {
+      _process = null;
+    });
+
+    _stdoutStream = process.stdout.asBroadcastStream();
+    _stderrStream  =process.stderr.asBroadcastStream();
   }
 
   bool stop() {

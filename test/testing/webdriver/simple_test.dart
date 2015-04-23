@@ -50,7 +50,7 @@ main([List<String> args]) {
 
       // exercise
       _log.finest('get: ${url}');
-      await driver.navigate.to(url);
+      await driver.get(url);
       await new Future.delayed(new Duration(seconds: 1), () {});
       final title = await driver.title;
 

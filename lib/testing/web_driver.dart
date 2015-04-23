@@ -13,8 +13,9 @@ final _log = new Logger('bwu_utils.testing.server.web_driver');
 WebDriverFactory createDriverFactory() {
   List<WebDriverFactory> factories = [
     //new SauceLabsDriverFactory(),
-    new ChromeDriverFactory(),
-//    new PhantomJSDriverFactory(),
+//    new ChromeDriverFactory(),
+    new PhantomJSDriverFactory(),
+    //new FirefoxDriverFactory(),
   ];
 
   WebDriverFactory factory;
@@ -40,6 +41,7 @@ abstract class WebDriverFactory {
 
   WebDriverFactory(this.name);
 
+  Map get _env => io.Platform.environment;
   bool get isAvailable;
 
   Future startFactory();
@@ -52,8 +54,6 @@ abstract class WebDriverFactory {
 
 class SauceLabsDriverFactory extends WebDriverFactory {
   SauceLabsDriverFactory() : super('saucelabs');
-
-  Map get _env => io.Platform.environment;
 
   bool get isAvailable => _env.containsKey('SAUCE_USERNAME') && _env.containsKey('SAUCE_ACCESS_KEY');
 
@@ -91,12 +91,44 @@ class PhantomJSDriverFactory extends WebDriverFactory {
   }
 }
 
+class FirefoxDriverFactory extends WebDriverFactory {
+  io.Process _process;
+
+  FirefoxDriverFactory() : super('firefox');
+
+  bool get isAvailable => whichSync('firefox', orElse: () => null) != null;
+
+  Future startFactory() {
+    return io.Process.start('firefox', ['--webdriver=9515']).then((p) {
+      _process = p;
+      return new Future.delayed(new Duration(seconds: 1));
+    });
+  }
+
+  Future stopFactory() {
+    _process.kill();
+    Future f = _process.exitCode;
+    _process = null;
+    return f;
+  }
+
+  Future<WebDriver> createWebDriver() {
+    Map capabilities = Capabilities.firefox;
+    //capabilities['FirefoxDriver.PROFILE'] = 'WebDriver';
+    //capabilities['profile'] = 'WebDriver';
+    capabilities['webdriver.firefox.profile'] = 'WebDriver';
+    //Map firefoxOptions = {'args': ['-p', 'WebDriver']};
+    //capabilities['firefoxOptions'] = firefoxOptions;
+    return createDriver(
+        uri: Uri.parse('http://127.0.0.1:4444/wd/hub/'),
+        desired: capabilities);
+  }
+}
+
 class ChromeDriverFactory extends WebDriverFactory {
   io.Process _process;
 
   ChromeDriverFactory() : super('chromedriver');
-
-  Map get _env => io.Platform.environment;
 
   bool get isAvailable => whichSync('chromedriver', orElse: () => null) != null;
 
@@ -123,12 +155,12 @@ class ChromeDriverFactory extends WebDriverFactory {
     Map env = io.Platform.environment;
     Map chromeOptions = {};
 
-//    if (env['CHROMEDRIVER_BINARY'] != null) {
-//      chromeOptions['binary'] = env['CHROMEDRIVER_BINARY'];
-//    }
-//    if (env['CHROMEDRIVER_ARGS'] != null) {
-//      chromeOptions['args'] = env['CHROMEDRIVER_ARGS'].split(' ');
-//    }
+    if (env['CHROMEDRIVER_BINARY'] != null) {
+      chromeOptions['binary'] = env['CHROMEDRIVER_BINARY'];
+    }
+    if (env['CHROMEDRIVER_ARGS'] != null) {
+      chromeOptions['args'] = env['CHROMEDRIVER_ARGS'].split(' ');
+    }
     if (chromeOptions.isNotEmpty) {
       capabilities['chromeOptions'] = chromeOptions;
     }

@@ -48,7 +48,7 @@ packages:
   grinder:
     description:
       ref: null
-      resolved-ref: c504b085a5e28c8dfd6766c3e0c27f79272458e9
+      resolved-ref: "982c59aedd754870878845f2ed99224f1d402383"
       url: "git@github.com:google/grinder.dart.git"
     source: git
     version: "0.7.0"
@@ -170,10 +170,10 @@ packages:
   test:
     description:
       ref: null
-      resolved-ref: d2650ca9289412a4ecb6b18a8560d3070de6da65
+      resolved-ref: "89cb7711f3d44bfa94a239640c3bb97e61c63926"
       url: "git@github.com:dart-lang/test.git"
     source: git
-    version: "0.12.0-dev"
+    version: "0.12.0-rc.0"
   utf:
     description: utf
     source: hosted
