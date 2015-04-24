@@ -1,7 +1,7 @@
 @TestOn('vm')
 library bwu_utils.test.shared.parse_num;
 
-import 'package:bwu_utils/testing_server.dart';
+import 'package:bwu_utils_dev/testing_server.dart';
 import 'package:bwu_utils/shared/math/parse_num.dart';
 
 final _log = new Logger('bwu_utils.test.shared.test_parse_num');

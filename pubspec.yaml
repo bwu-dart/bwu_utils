@@ -8,22 +8,20 @@ environment:
 
 dependencies:
   args: '>=0.13.0 <0.14.0'
-  grinder:
-    git: git@github.com:google/grinder.dart.git
+  bwu_utils_dev: #'>=0.1.0 <0.2.0'
+    path: ../bwu_utils_dev
   html: '>=0.12.1 <0.13.0'
+  logging: '>=0.9.0 <0.11.0'
   path: '>=1.0.0 <2.0.0'
   quiver: '>=0.21.3 <0.22.0'
   quiver_log: '>=1.0.3 <2.0.0'
-  webdriver: '>=0.10.0-pre.2 <0.11.0'
 
 dev_dependencies:
-  test: #'>=0.12.0-beta.10 < 0.13.0'
-    git: git@github.com:dart-lang/test.git
-  dart_style: '>=0.1.7 <0.2.0'
-  # remove dependeny when lib/grinder/linter_task.dart is removed
-  linter:
-    git: git@github.com:dart-lang/linter.git
+  grinder: '>=0.7.0-dev.1 <0.8.0'
+    # git: git@github.com:google/grinder.dart.git
+   # git: git@github.com:dart-lang/test.git
   polymer: '>=0.16.1+4 <0.17.0'
+  test: '>=0.12.0-rc.0 < 0.13.0'
 
 dependency_overrides:
   args: '>=0.13.0 <0.14.0'
@@ -33,11 +31,10 @@ dependency_overrides:
 #    git: git@github.com:dart-lang/test.git
 
 transformers:
-- test/pub_serve:
-    $include: test/browser/**_test.dart
-
 - polymer:
     entry_points:
     - test/browser/polymer_test_example/jhtml_test.html
     - test/testing/webdriver/polymer/index.html
 
+- test/pub_serve:
+    $include: test/**_test{.*,}.dart

@@ -2,7 +2,8 @@
 library bwu_utils.test.server.network;
 
 import 'dart:io' as io;
-import 'package:bwu_utils/testing_server.dart';
+import 'package:bwu_utils/bwu_utils_server.dart';
+import 'package:bwu_utils_dev/testing_server.dart';
 
 void isValidPortNumber(int port) {
   expect(port > 1000 && port <= maxIpV4PortNumber, isTrue);
@@ -15,8 +16,7 @@ void main([List<String> args]) {
       // set up
 
       // exercise
-      var port =
-          await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
+      var port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
       isValidPortNumber(port);
       port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
       isValidPortNumber(port);

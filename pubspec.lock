@@ -4,7 +4,7 @@ packages:
   analyzer:
     description: analyzer
     source: hosted
-    version: "0.25.0-dev.3"
+    version: "0.25.0+1"
   args:
     description: args
     source: hosted
@@ -17,6 +17,12 @@ packages:
     description: browser
     source: hosted
     version: "0.10.0+2"
+  bwu_utils_dev:
+    description:
+      path: "../bwu_utils_dev"
+      relative: true
+    source: path
+    version: "0.1.0-dev.0"
   cli_util:
     description: cli_util
     source: hosted
@@ -40,17 +46,14 @@ packages:
   dart_style:
     description: dart_style
     source: hosted
-    version: "0.1.7"
+    version: "0.1.8"
   glob:
     description: glob
     source: hosted
     version: "1.0.4"
   grinder:
-    description:
-      ref: null
-      resolved-ref: "982c59aedd754870878845f2ed99224f1d402383"
-      url: "git@github.com:google/grinder.dart.git"
-    source: git
+    description: grinder
+    source: hosted
     version: "0.7.0"
   html:
     description: html
@@ -72,13 +75,6 @@ packages:
     description: intl
     source: hosted
     version: "0.12.2"
-  linter:
-    description:
-      ref: null
-      resolved-ref: "7af2e4a91781178f1eae6cbc4add045a77fd0235"
-      url: "git@github.com:dart-lang/linter.git"
-    source: git
-    version: "0.0.2+1"
   logging:
     description: logging
     source: hosted
@@ -168,11 +164,8 @@ packages:
     source: hosted
     version: "0.14.0+2"
   test:
-    description:
-      ref: null
-      resolved-ref: "89cb7711f3d44bfa94a239640c3bb97e61c63926"
-      url: "git@github.com:dart-lang/test.git"
-    source: git
+    description: test
+    source: hosted
     version: "0.12.0-rc.0"
   utf:
     description: utf
@@ -185,7 +178,7 @@ packages:
   web_components:
     description: web_components
     source: hosted
-    version: "0.11.2"
+    version: "0.11.3"
   webdriver:
     description: webdriver
     source: hosted

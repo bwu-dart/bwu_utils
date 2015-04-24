@@ -1,7 +1,8 @@
 @TestOn('vm')
 library bwu_utils.test.server.package;
 
-import 'package:bwu_utils/testing_server.dart';
+import 'package:bwu_utils_dev/testing_server.dart';
+import 'package:bwu_utils/bwu_utils_server.dart';
 
 import 'package:path/path.dart' as path;
 

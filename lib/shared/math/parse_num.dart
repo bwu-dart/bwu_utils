@@ -1,4 +1,5 @@
 library bwu_utils.shared.math.parse_num;
+
 import 'package:logging/logging.dart' show Logger;
 
 final _log = new Logger('bwu_utils.shared.math.parse_num');
