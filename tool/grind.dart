@@ -17,11 +17,16 @@ main(List<String> args) => grind(args);
 //void clean() => defaultClean(context);
 
 @Task('Run analyzer')
-analyze() => analyzerTask(files: [], directories: sourceDirs);
+analyze() => _analyze();
+
+@Task('Check everything')
+@Depends(analyze, checkFormat, lint, test)
+@DefaultTask()
+check() => _check();
 
 @Task('Runn all tests')
 test() => _test(
-    ['vm', 'dartium', 'chrome', 'phantomjs', 'firefox', /*content-shell*/],
+    ['vm', 'dartium', 'chrome', 'phantomjs', 'firefox', 'content-shell'],
     runPubServe: false, runSelenium: false);
 
 @Task('Run all VM tests')
@@ -29,6 +34,29 @@ testIo() => _test(['vm']);
 
 @Task('Run all browser tests')
 testHtml() => _test(['content-shell'], runPubServe: true);
+
+//  final chromeBin = '-Dwebdriver.chrome.bin=/usr/bin/google-chrome';
+//  final chromeDriverBin = '-Dwebdriver.chrome.driver=/usr/local/apps/webdriver/chromedriver/2.15/chromedriver_linux64/chromedriver';
+
+@Task('Check source code format')
+checkFormat() => checkFormatTask(['.']);
+
+/// format-all - fix all formatting issues
+@Task('Fix all source format issues')
+format() => _format();
+
+@Task('Run lint checks')
+lint() => _lint();
+
+_analyze() => analyzerTask(directories: sourceDirs);
+
+_check() => run('pub', arguments: ['publish', '-n']);
+
+_format() => new PubApp.global('dart_style').run(['-w']..addAll(sourceDirs),
+    script: 'format');
+
+_lint() => new PubApp.global('linter')
+    .run(['--stats', '-ctool/lintcfg.yaml']..addAll(sourceDirs));
 
 Future _test(List<String> platforms,
     {bool runPubServe: true, bool runSelenium: true}) async {
@@ -72,22 +100,3 @@ Future _test(List<String> platforms,
     selenium.stop();
   }
 }
-
-//  final chromeBin = '-Dwebdriver.chrome.bin=/usr/bin/google-chrome';
-//  final chromeDriverBin = '-Dwebdriver.chrome.driver=/usr/local/apps/webdriver/chromedriver/2.15/chromedriver_linux64/chromedriver';
-
-@Task('Check everything')
-@Depends(analyze, checkFormat, lint, test)
-check() {}
-
-@Task('Check source code format')
-checkFormat() => checkFormatTask(['.']);
-
-/// format-all - fix all formatting issues
-@Task('Fix all source format issues')
-formatAll() => new PubApp.global('dart_style').run(['-w']..addAll(sourceDirs),
-    script: 'format');
-
-@Task('Run lint checks')
-lint() => new PubApp.global('linter')
-    .run(['--stats', '-ctool/lintcfg.yaml']..addAll(sourceDirs));
