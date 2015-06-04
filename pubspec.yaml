@@ -1,5 +1,5 @@
 name: bwu_utils
-version: 0.1.0-dev.2
+version: 0.1.0-dev.3
 description: A collection of utilities.
 homepage: https://github.com/bwu-dart/bwu_utils
 author: Günter Zöchbauer <guenter@gzoechbauer.com>
@@ -15,18 +15,12 @@ dependencies:
   quiver_log: '>=1.0.3 <2.0.0'
 
 dev_dependencies:
-  bwu_utils_dev: '^0.1.0-dev.2'
-  grinder: '>=0.7.0 <0.8.0'
+  bwu_utils_dev: '^0.1.0-dev.5'
   polymer: '>=0.16.1+4 <0.17.0'
   test: '>=0.12.0 <0.13.0'
 
 dependency_overrides:
 
 transformers:
-- polymer:
-    entry_points:
-    - test/browser/polymer_test_example/jhtml_test.html
-    - test/testing/webdriver/polymer/index.html
-
 - test/pub_serve:
     $include: test/**_test{.*,}.dart

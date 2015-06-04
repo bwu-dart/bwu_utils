@@ -1,4 +1,4 @@
-@TestOn('vm')
+@TestOn('vm || browser')
 library bwu_utils.test.shared.parse_num;
 
 import 'package:bwu_utils_dev/testing_server.dart';

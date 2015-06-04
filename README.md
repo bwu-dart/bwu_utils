@@ -1,11 +1,10 @@
 # BWU_Utils
 
-[![Star this Repo](https://img.shields.io/github/stars/bwu-dart/bwu_utils.svg?style=flat-square)](https://github.com/bwu-dart/bwu_utils)
-[![Pub Package](https://img.shields.io/pub/v/bwu_utils.svg?style=flat-square)](https://pub.dartlang.org/packages/bwu_utils)
-[![Build Status](https://drone.io/github.com/bwu-dart/bwu_utils/status.png)](https://drone.io/github.com/bwu-dart/bwu_utils/latest)
+[![Star this Repo](https://img.shields.io/github/stars/bwu-dart/bwu_utils.svg?style=flat)](https://github.com/bwu-dart/bwu_utils)
+[![Pub Package](https://img.shields.io/pub/v/bwu_utils.svg?style=flat)](https://pub.dartlang.org/packages/bwu_utils)
+[![Build Status](https://travis-ci.org/bwu-dart/bwu_utils.svg?branch=travis)](https://travis-ci.org/bwu-dart/bwu_utils)
+[![Coverage Status](https://coveralls.io/repos/bwu-dart/bwu_utils/badge.svg)](https://coveralls.io/r/bwu-dart/bwu_utils)
 
-Just a collection of functions and classes I wan't to reuse in different other
+Just a collection of functions and classes I want to reuse in different other
 packages.
 
-The package requires a dependency override for the analyzer package (e.g. 0.24.0)
-for Grinder tasks, but publishing with a dependency_overrides is prevented.
