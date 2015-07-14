@@ -2,15 +2,14 @@
 library bwu_utils.test.server.network;
 
 import 'dart:io' as io;
+import 'package:test/test.dart';
 import 'package:bwu_utils/bwu_utils_server.dart';
-import 'package:bwu_utils_dev/testing_server.dart';
 
 void isValidPortNumber(int port) {
   expect(port > 1000 && port <= maxIpV4PortNumber, isTrue);
 }
 
 void main([List<String> args]) {
-  initLogging(args);
   group('network_test', () {
     test('getNextFreeIpPort', () async {
       // set up
