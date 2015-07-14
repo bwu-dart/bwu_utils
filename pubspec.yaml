@@ -1,5 +1,5 @@
 name: bwu_utils
-version: 0.1.0-dev.3
+version: 0.1.0
 description: A collection of utilities I want to use from different packages.
 homepage: https://github.com/bwu-dart/bwu_utils
 author: Günter Zöchbauer <guenter@gzoechbauer.com>
