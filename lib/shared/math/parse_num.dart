@@ -56,8 +56,10 @@ int parseInt(dynamic s, {int radix: 10, int onErrorDefault: null}) {
   return int.parse(s, radix: radix, onError: (_) => onErrorDefault);
 }
 
-double parseDouble(dynamic s, {double onErrorDefault: null,
-    bool acceptInfinity: false, bool acceptNegativeInfinity: false}) {
+double parseDouble(dynamic s,
+    {double onErrorDefault: null,
+    bool acceptInfinity: false,
+    bool acceptNegativeInfinity: false}) {
   if (s == null) return onErrorDefault;
   if (s is num &&
       ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
@@ -98,7 +100,9 @@ double parseDouble(dynamic s, {double onErrorDefault: null,
   return result;
 }
 
-num parseNum(dynamic s, {num onErrorDefault: null, bool acceptInfinity: false,
+num parseNum(dynamic s,
+    {num onErrorDefault: null,
+    bool acceptInfinity: false,
     bool acceptNegativeInfinity: false}) {
   if (s == null) return onErrorDefault;
   if (s is num &&

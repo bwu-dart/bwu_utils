@@ -1,3 +1,8 @@
+## 0.1.1
+- add `.analysis_options` (enable strong-mode)
+- minor strong-mode fixes
+- update grinder dependency constraint 
+
 ## 0.1.0
 
 - merged bwu_utils_server, bwu_utils_browser

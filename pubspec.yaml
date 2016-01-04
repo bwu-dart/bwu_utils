@@ -1,5 +1,5 @@
 name: bwu_utils
-version: 0.1.0
+version: 0.1.1
 description: A collection of utilities I want to use from different packages.
 homepage: https://github.com/bwu-dart/bwu_utils
 author: Günter Zöchbauer <guenter@gzoechbauer.com>
@@ -15,11 +15,9 @@ dependencies:
 #  quiver_log: '>=1.0.3 <2.0.0'
 
 dev_dependencies:
-  bwu_grinder_tasks: '^0.1.0'
-  grinder: ^0.7.2
+  bwu_grinder_tasks: '^0.1.1-dev.1'
+  grinder: '>=0.7.2 <0.9.0'
   test: '>=0.12.0 <0.13.0'
-
-dependency_overrides:
 
 transformers:
 - test/pub_serve:
