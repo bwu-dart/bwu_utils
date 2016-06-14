@@ -15,7 +15,7 @@ void main([List<String> args]) {
       // set up
 
       // exercise
-      var port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
+      int port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V4.address);
       isValidPortNumber(port);
       port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
       isValidPortNumber(port);
@@ -23,7 +23,7 @@ void main([List<String> args]) {
       isValidPortNumber(port);
       port = await getFreeIpPort(io.InternetAddress.LOOPBACK_IP_V6.address);
       isValidPortNumber(port);
-      final someIp = new io.InternetAddress('195.96.0.1');
+      final io.InternetAddress someIp = new io.InternetAddress('195.96.0.1');
       expect(getFreeIpPort(someIp),
           throwsA(new isInstanceOf<io.SocketException>()));
 

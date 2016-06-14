@@ -12,8 +12,9 @@ io.Directory packageRoot([io.Directory startDir]) {
   if (startDir == null) {
     startDir = io.Directory.current;
   }
-  final exists = new io.File(path.join(startDir.absolute.path, 'pubspec.yaml'))
-      .existsSync();
+  final bool exists =
+      new io.File(path.join(startDir.absolute.path, 'pubspec.yaml'))
+          .existsSync();
 
   if (exists) return startDir;
   if (startDir.parent == startDir) return null;

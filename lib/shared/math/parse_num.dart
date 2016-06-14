@@ -2,7 +2,7 @@ library bwu_utils.shared.math.parse_num;
 
 import 'package:logging/logging.dart' show Logger;
 
-final _log = new Logger('bwu_utils.shared.math.parse_num');
+final Logger _log = new Logger('bwu_utils.shared.math.parse_num');
 
 bool isInt(dynamic s, {int radix: 10}) {
   // TODO test after change to dynamic
@@ -94,8 +94,8 @@ double parseDouble(dynamic s,
 
   if (result.toString() == double.NAN.toString()) return onErrorDefault;
   if (!acceptInfinity && result == double.INFINITY) return onErrorDefault;
-  if (!acceptNegativeInfinity &&
-      result == double.NEGATIVE_INFINITY) return onErrorDefault;
+  if (!acceptNegativeInfinity && result == double.NEGATIVE_INFINITY)
+    return onErrorDefault;
 
   return result;
 }
@@ -129,8 +129,8 @@ num parseNum(dynamic s,
 
   if (result.toString() == double.NAN.toString()) return onErrorDefault;
   if (!acceptInfinity && result == double.INFINITY) return onErrorDefault;
-  if (!acceptNegativeInfinity &&
-      result == double.NEGATIVE_INFINITY) return onErrorDefault;
+  if (!acceptNegativeInfinity && result == double.NEGATIVE_INFINITY)
+    return onErrorDefault;
 
   return result;
 }

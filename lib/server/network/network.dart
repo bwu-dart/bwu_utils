@@ -14,7 +14,8 @@ const String validHostIpRegExp =
 /// [RFC 952](http://tools.ietf.org/html/rfc952) specified
 /// that hostname segments could not start with a digit.
 const String validHostnameRegExp =
-    r'(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])';
+    r'(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|'
+    r'[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])';
 
 /// The original specification of hostnames in
 /// [RFC 952](http://tools.ietf.org/html/rfc952), mandated that labels could not
@@ -22,7 +23,8 @@ const String validHostnameRegExp =
 /// a subsequent specification ([RFC 1123](http://tools.ietf.org/html/rfc1123)
 /// permitted hostname labels to start with digits.
 const String valid952HostnameRegExp =
-    r'(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])';
+    r'(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z]'
+    r'[A-Za-z0-9\-]*[A-Za-z0-9])';
 
 /// The maximal valid port number for IPV4 and IPV6
 const int maxIpV4PortNumber = 65535;
@@ -32,8 +34,8 @@ Future<int> getFreeIpPort([dynamic host]) async {
   if (host == null) {
     host = io.InternetAddress.LOOPBACK_IP_V4;
   }
-  final socket = await io.ServerSocket.bind(host, 0);
-  final port = socket.port;
+  final io.ServerSocket socket = await io.ServerSocket.bind(host, 0);
+  final int port = socket.port;
   await socket.close();
   return port;
 }
