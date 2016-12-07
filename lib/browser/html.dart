@@ -8,7 +8,7 @@ HtmlElement getParentElement(Node element) {
     return null;
   }
   if (element.parentNode is ShadowRoot) {
-    return (element.parentNode as ShadowRoot).host;
+    return (element.parentNode as ShadowRoot).host as HtmlElement;
   } else {
     return element.parentNode as HtmlElement;
   }
@@ -64,7 +64,7 @@ HtmlElement closest(HtmlElement e, String selector,
   HtmlElement prevParent = e;
   HtmlElement found;
   while (parent != null && found == null) {
-    found = parent.querySelector(selector);
+    found = parent.querySelector(selector) as HtmlElement;
     if (found != null) {
       if (parent.querySelectorAll(selector).contains(prevParent)) {
         return prevParent;
@@ -80,10 +80,10 @@ HtmlElement closest(HtmlElement e, String selector,
 
     if (parent is ShadowRoot) {
       if (goThroughShadowBoundaries) {
-        parent = (parent as ShadowRoot).host;
+        parent = (parent as ShadowRoot).host as HtmlElement;
       }
     } else {
-      parent = parent.parent;
+      parent = parent.parent as HtmlElement;
     }
   }
 

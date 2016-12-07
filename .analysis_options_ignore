@@ -1,0 +1,6 @@
+linter:
+  rules:
+    - always_specify_types
+    - avoid_as
+    - public_member_api_docs
+    - sort_constructors_first

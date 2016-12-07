@@ -53,10 +53,10 @@ int parseInt(dynamic s, {int radix: 10, int onErrorDefault: null}) {
   if (s == null) return onErrorDefault;
   if (s is int) return s;
   if (s is! String) return onErrorDefault;
-  return int.parse(s, radix: radix, onError: (_) => onErrorDefault);
+  return int.parse(s as String, radix: radix, onError: (_) => onErrorDefault);
 }
 
-double parseDouble(dynamic s,
+double parseDouble(Object s,
     {double onErrorDefault: null,
     bool acceptInfinity: false,
     bool acceptNegativeInfinity: false}) {
@@ -65,32 +65,22 @@ double parseDouble(dynamic s,
       ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
           (s != double.NEGATIVE_INFINITY ||
               s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
-    return s;
-  } else {
-    s = s.toString();
+    return s.toDouble();
   }
   if (s is! String) return onErrorDefault;
 
   if (acceptInfinity &&
-      s.toLowerCase() == double.INFINITY.toString().toLowerCase()) {
+      (s as String).toLowerCase() == double.INFINITY.toString().toLowerCase()) {
     return double.INFINITY;
   }
 
   if (acceptNegativeInfinity &&
-      s.toLowerCase() == double.NEGATIVE_INFINITY.toString().toLowerCase()) {
+      (s as String).toLowerCase() ==
+          double.NEGATIVE_INFINITY.toString().toLowerCase()) {
     return double.NEGATIVE_INFINITY;
   }
-  if (s is num &&
-      ((s != double.INFINITY || s == double.INFINITY && acceptInfinity) ||
-          (s != double.NEGATIVE_INFINITY ||
-              s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
-    return s;
-  } else {
-    s = s.toString();
-  }
-  if (s is! String) return onErrorDefault;
 
-  double result = double.parse(s, (_) => onErrorDefault);
+  final result = double.parse(s as String, (_) => onErrorDefault);
 
   if (result.toString() == double.NAN.toString()) return onErrorDefault;
   if (!acceptInfinity && result == double.INFINITY) return onErrorDefault;
@@ -110,22 +100,22 @@ num parseNum(dynamic s,
           (s != double.NEGATIVE_INFINITY ||
               s == double.NEGATIVE_INFINITY && acceptNegativeInfinity))) {
     return s;
-  } else {
-    s = s.toString();
   }
+
   if (s is! String) return onErrorDefault;
 
   if (acceptInfinity &&
-      s.toLowerCase() == double.INFINITY.toString().toLowerCase()) {
+      (s as String).toLowerCase() == double.INFINITY.toString().toLowerCase()) {
     return double.INFINITY;
   }
 
   if (acceptNegativeInfinity &&
-      s.toLowerCase() == double.NEGATIVE_INFINITY.toString().toLowerCase()) {
+      (s as String).toLowerCase() ==
+          double.NEGATIVE_INFINITY.toString().toLowerCase()) {
     return double.NEGATIVE_INFINITY;
   }
 
-  num result = num.parse(s, (_) => onErrorDefault);
+  final result = num.parse(s as String, (_) => onErrorDefault);
 
   if (result.toString() == double.NAN.toString()) return onErrorDefault;
   if (!acceptInfinity && result == double.INFINITY) return onErrorDefault;
@@ -146,34 +136,34 @@ class ParseResult<T> {
     if (isError) {
       return super.toString() + ' isError: true';
     }
-    return '${value}${unit}';
+    return '$value$unit';
   }
 
   @override
   bool operator ==(dynamic other) {
-    if (other is! ParseResult) return false;
-    return other.value == value &&
+    return other is ParseResult &&
+        other.value == value &&
         other.unit == unit &&
         other.isError == isError;
   }
 
   @override
-  int get hashCode => '${value}${unit}${isError}'.hashCode;
+  int get hashCode => '$value$unit$isError'.hashCode;
 }
 
 /// Parses Strings with number and unit suffix.
 /// Only numbers in decimal form without a comma are supported.
 ParseResult<int> parseIntWithUnit(String s) {
-  Match comma = new RegExp(r'(?:\s*-?[0-9]*)\.|,(?:[0-9]*)').firstMatch(s);
+  final comma = new RegExp(r'(?:\s*-?[0-9]*)\.|,(?:[0-9]*)').firstMatch(s);
 
   if (comma != null) return new ParseResult<int>(null, s, isError: true);
 
-  Match m = new RegExp(r'(?:\s*)(-?[0-9]+)(?:\s*)([^\s]*)').firstMatch(s);
+  final m = new RegExp(r'(?:\s*)(-?[0-9]+)(?:\s*)([^\s]*)').firstMatch(s);
 
   if (m == null || m.groupCount == 0) {
     return new ParseResult<int>(null, s, isError: true);
   }
-  int numValue = parseInt(m.group(1));
+  final numValue = parseInt(m.group(1));
   if (numValue == null) {
     return new ParseResult<int>(null, s, isError: true);
   }
@@ -183,13 +173,13 @@ ParseResult<int> parseIntWithUnit(String s) {
 /// Parses Strings with number and unit suffix.
 /// Only numbers in decimal form are supported.
 ParseResult<double> parseDoubleWithUnit(String s) {
-  Match m =
+  final m =
       new RegExp(r'(?:\s*)(-?[0-9]*\.?[0-9]*)(?:\s*)([^\s]*)').firstMatch(s);
 
   if (m == null || m.groupCount == 0) {
     return new ParseResult<double>(null, s, isError: true);
   }
-  double numValue = parseDouble(m.group(1));
+  final numValue = parseDouble(m.group(1));
   if (numValue == null) {
     return new ParseResult<double>(null, s, isError: true);
   }
@@ -199,13 +189,13 @@ ParseResult<double> parseDoubleWithUnit(String s) {
 /// Parses Strings with number and unit suffix.
 /// Only numbers in decimal form are supported.
 ParseResult<num> parseNumWithUnit(String s) {
-  Match m =
+  final m =
       new RegExp(r'(?:\s*)(-?[0-9]*\.?[0-9]*)(?:\s*)([^\s]*)').firstMatch(s);
 
   if (m == null || m.groupCount == 0) {
     return new ParseResult<num>(null, s, isError: true);
   }
-  num numValue = parseNum(m.group(1));
+  final numValue = parseNum(m.group(1));
   if (numValue == null) {
     return new ParseResult<num>(null, s, isError: true);
   }
@@ -216,15 +206,16 @@ int parseIntDropUnit(String s) {
   if (s == null || s.trim() == '') {
     return 0;
   }
-  if (s.endsWith('%')) {
-    s = s.substring(0, s.length - 1);
+  String result = s;
+  if (result.endsWith('%')) {
+    result = s.substring(0, s.length - 1);
   } else if (s.endsWith('px')) {
-    s = s.substring(0, s.length - 2);
+    result = s.substring(0, s.length - 2);
   }
   try {
-    return num.parse(s).round();
+    return num.parse(result).round();
   } on FormatException catch (e) {
-    _log.severe('message: ${e.message}; value: "${s}"');
+    _log.severe('message: ${e.message}; value: "$result"');
     rethrow;
   }
 }

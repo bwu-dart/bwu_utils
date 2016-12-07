@@ -1,3 +1,7 @@
+## 0.1.3
+- widen quiver dependency constraint
+- strong-mode and linter fixes
+
 ## 0.1.2
 - widen quiver dependency constraint
 
